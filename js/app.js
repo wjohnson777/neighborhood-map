@@ -24,7 +24,7 @@ function googleMapError() {
 var ViewModel = function() {
     var self = this;
 	
-	self.museums = ko.observableArray(locations);
+	self.places = ko.observableArray(locations);
 	
 	self.query = ko.observable('');
 	
