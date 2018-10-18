@@ -19,7 +19,7 @@
         <span class="second"></span>
         <span class="third"></span>
       </div>
-      <div class="menu-text">Filters</div>
+      <div class="menu-text">Places</div>
     </label>
 
     <aside class="hidden-menu">
@@ -29,12 +29,11 @@
       </ul>
     </aside>
 
-<main id="mapDiv" class="map"></main>
+	<main id="mapDiv" class="map"></main>
 	
 	<script src="js/app.js"></script>
 	<script src="js/locations.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd7OjpZBBnXXM_uHgmzjlGAwJP7Mnhg3w&v&libraries=geometry&v=3&callback=initMap">
-    </script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd7OjpZBBnXXM_uHgmzjlGAwJP7Mnhg3w&callback=init&libraries=places" onerror="googleMapError()"></script>
 
 </body>
 </html>
