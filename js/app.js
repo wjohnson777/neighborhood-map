@@ -22,6 +22,7 @@ function googleMapError() {
 var ViewModel = function() {
 	var self = this;
 	
+	this.title = data.title;
 	self.query = ko.observable('');
 	
 	self.places = ko.observableArray(data);
@@ -46,6 +47,12 @@ var ViewModel = function() {
 			toggleBounce(this);
 		});
 	});
+	
+	this.marker.addListener('click', function() {
+        populateInfoWindow(this, infoWindow);
+        toggleBounce(this);
+        map.panTo(this.getPosition());
+    });
 	
 	self.search = ko.computed(function() {
 		var query = self.query().toLowerCase();
