@@ -1,40 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Neighborhood Map</title>
-	<link rel="stylesheet" href="css/style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
-</head>
-<body>
-	<div id="map"></div>
-	<input type="checkbox" id="hamburger" class="hidden-menu-ticker">
-	
-	<h1 id="topHeading">Favorite Places</h1>
-	<label class="btn-menu" for="hamburger">
-	<div class="hamburger">
-        <span class="first"></span>
-        <span class="second"></span>
-        <span class="third"></span>
-      </div>
-      <div class="menu-text">Places</div>
-    </label>
-
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Favorite Places</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div id="map"></div>
     <aside>
-	 <div class="hidden-menu">
-      <input class="form-control" data-bind="textInput: query" placeholder="Query" />
-      <ul class="list-group" data-bind="foreach: search">
-        <li class="list-group-item" data-bind="text: name, click: $parent.listClick"></li>
-      </ul>
-	 </div>
+      <div class="listing">
+        <input class="form-control" data-bind="textInput: query" placeholder="Query" />
+        <ul class="list-group" data-bind="foreach: search">
+          <li class="list-group-item" data-bind="text: title, click: $parent.listClick"></li>
+        </ul>
+      </div>
     </aside>
-	
-	<script src="js/app.js"></script>
-	<script src="js/locations.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd7OjpZBBnXXM_uHgmzjlGAwJP7Mnhg3w&callback=init&libraries=places" onerror="googleMapError()"></script>
-
-</body>
-</html>
+    <!-- load script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="js/places.js"></script>
+    <script src="js/app.js"></script>
+    <!-- <script src="js/wikipediaAPI.js"></script> -->
+    <script async defer
+        src=
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBd7OjpZBBnXXM_uHgmzjlGAwJP7Mnhg3w&v&libraries=geometry&v=3&callback=initMap">
+    </script>
+  </body>
+  </html>
