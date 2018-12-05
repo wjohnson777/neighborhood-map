@@ -19,76 +19,102 @@ function googleMapError() {
 	document.getElementById('map').innerHTML="Failed to Load Google Map"
 }
 
-var ViewModel = function() {
+var VenueMarker = function(data) {
 	var self = this;
 	
 	this.title = data.title;
-	self.query = ko.observable('');
+	this.position = data.location;
+	this.visible = ko.observable(true);
 	
-	self.places = ko.observableArray(data);
+	var defaultIcon = createMarkerIcon('0091ff');
+	var highlightedIcon = createMarkerIcon('FFFF24');
 	
-	self.listClick = function(place) {
-		google.maps.event.trigger(place.marker, 'click');
-	};
-	
-	var marker;
-	var largeInfoWindow = new google.maps.InfoWindow();
-	self.places().forEach(function(place) {
-		marker = new google.maps.Marker({
-			position: new google.maps.LatLng(place.location.lat, place.location.lng),
-			map: map,
-			title: place.name,
-			animation: google.maps.Animation.DROP,
-		});
-		
-		place.marker = marker;
-		marker.addListener('click', function(infowindow) {
-			populateInfoWindow(this, largeInfoWindow);
-			toggleBounce(this);
-		});
+	this.place = new google.maps.place({
+		title: this.title,
+		position: this.position,
+		animation: google.maps.Animation.DROP,
+		icon: defaultIcon
 	});
-	
-	this.marker.addListener('click', function() {
-        populateInfoWindow(this, infoWindow);
-        toggleBounce(this);
-        map.panTo(this.getPosition());
-    });
-	
-	self.search = ko.computed(function() {
-		var query = self.query().toLowerCase();
-		if(!query) {
-			self.places().forEach(function(place) {
-				place.marker.setVisible(true);
-			})
-			return self.places();
+	self.markerBoundry = ko.computed(function() {
+		if(self.visible() === true) {
+			self.place.setMap(map);
+			bounds.extend(self.place.position);
+			map.fitBounds(bounds);
 		} else {
-			return ko.utils.arrayFilter(self.places(), function(place) {
-				var queryMatch = place.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
-				place.marker.setVisible(queryMatch);
-				return queryMatch;
-			});
+			self.place.setMap(null);
 		}
 	});
-}
+	
+	this.place.addListener('click', function() {
+		populateLargeInfoWindow(this, infoWindow);
+		toggleBounce(this);
+		map.panTo(this.getPosition());
+	});
+	
+	this.place.addListener('mouseover', function() {
+		this.setIcon(highlightedIcon);
+	});
+	
+	this.place.addListener('mouseout', function() {
+		this.setIcon(defaultIcon);
+	});
+	
+	this.show = function(location) {
+		google.maps.event.trigger(self.place, 'click');
+	};
+	
+	this.bounce = function(place) {
+		google.maps.event.trigger(self.place, 'click');
+	};
+};
 
-function populateInfoWindow(marker, street, city, phone, infowindow) {
-	if (infowindow.marker != marker) {
+var ViewModel = function() {
+	var self = this;
+	
+	self.queryLocation = ko.observable('');
+	
+	self.venueList = ko.observableArray([]);
+	
+	locations.forEach(function(location) {
+		self.venueList.push( new VenueMarker(location) );
+	});
+
+	
+	this.placeList = ko.computed(function() {
+		var query = self.queryLocation().toLowerCase();
+		if(query) {
+			return ko.utils.arrayFilter(self.venueList(), function(place) {
+				var queryMatch = location.title.toLowerCase();
+				var result = queryMatch.includes(query);
+				location.visible(result);
+				return result;
+			});
+		}
+		self.venueList().forEach(function(location) {
+			location.visible(true);
+		});
+		return self.venueList();
+	}, self);
+};
+
+function populateLargeInfoWindow(place, street, city, phone, infowindow) {
+	if (infowindow.place != place) {
 		infowindow.setContent('');
-		infowindow.marker = marker;
+		infowindow.place = place;
 		
 		infowindow.addListener('closeclick', function() {
-			infowindow.marker = null;
+			infowindow.place = null;
 		});
 		var streetViewService = new google.maps.StreetViewService();
 		var radius = 50;
 		
-		var windowContent = '<h4>' + marker.title + '</h4>' + '<p>' + street + "<br>" + city + '<br>' + phone + "</p>";
+		var windowContent = '<h4>' + place.title + '</h4>' + '<p>' + street + "<br>" + city + '<br>' + phone + "</p>";
 		
 		var getStreetView = function(data, status) {
 			if (status == google.maps.StreetViewStatus.OK) {
 				var nearStreetViewLocation = data.location.LatLng;
 				var heading = google.maps.geometry.spherical.computeHeading(
-					nearStreetViewLocation, marker.position);
+					nearStreetViewLocation, place.position);
 				infowindow.setContent(windowContent + '<div id="pano"></div>');
 				var panoramaOptions = {
 					position: nearStreetViewLocation,
@@ -104,9 +130,29 @@ function populateInfoWindow(marker, street, city, phone, infowindow) {
 			}
 		};
 		
-		streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-		infowindow.open(map, marker);
+		streetViewService.getPanoramaByLocation(place.position, radius, getStreetView);
+		infowindow.open(map, place);
 	}
+}
+
+function animateBounce(place) {
+	if (place.getAnimation() !== null) {
+		place.setAnimation(null);
+	} else {
+		place.setAnimation(google.maps.Animation.BOUNCE);
+		setTimeout(function() {
+			place.setAnimation(null);
+		}, 1400);
+	}
+}
+
+function makeMarkerIcon(markerColor) {
+	var markerImage = new google.maps.MarkerImage('http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor + '|40|_|%E2%80%A2',
+	new google.maps.Size(21, 34),
+	new google.maps.Point(0, 0),
+	new google.maps.Point(10, 34),
+	new google.maps.Size(21, 34));
+	return markerImage;
 }
  
  /* var largeInfowindow = new google.maps.InfoWindow();
