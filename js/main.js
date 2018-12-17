@@ -16,7 +16,7 @@ var MapViewModel = function() {
     });
 
     // Map locations
-    this.locationList = ko.computed(function() {
+    this.placeList = ko.computed(function() {
         var searchFilter = self.searchItem().toLowerCase();
         if (searchFilter) {
             return ko.utils.arrayFilter(self.mapList(), function(location) {
@@ -137,6 +137,7 @@ var LocationMarker = function(data) {
 
 };
 
+// Use Google Streetview to generate infowindow
 // Populate, verify and clear the infowindow for each marker
 function populateInfoWindow(marker, street, city, infowindow) {
     if (infowindow.marker != marker) {
