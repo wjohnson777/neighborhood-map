@@ -34,7 +34,7 @@ body {
     z-index: -4;
 }
 
-.sidenav {
+.placelist {
     margin: 0;
     position: absolute;
     left: 0px;
@@ -43,7 +43,7 @@ body {
     right: 0px;
 }
 
-.col-md-offset-9 {
+.col-md-3 {
 	margin-left: 2%;
 }
 
@@ -52,10 +52,11 @@ body {
     color: black;
     border-left: solid;
     border-bottom: solid;
+	/* border: 1px; */
 }
 
 .list-group {
-	padding-right: 30%;
+	padding-right: 25%;
 }
 
 #pano {
