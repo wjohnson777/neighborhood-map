@@ -28,6 +28,7 @@
           <div class="input-group">
               <input type="text" class="form-control" placeholder="Search" name="q" data-bind="textInput: searchItem, valueUpdate: 'afterkeydown'">
               <div class="input-group-btn">
+					<!-- Used Search Icon from https://www.w3schools.com/bootstrap/bootstrap_ref_comp_glyphs.asp -->
                   <button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
               </div>
           </div>
@@ -39,9 +40,9 @@
       <div class="row">
         <div id="map"></div>
 
-        <aside class="col-md-3 col-md-offset-9 collapsed in" id="navbarSupportedContent">
-          <div class="sidenav">
-            <div class="list-group" data-bind="foreach: locationList">
+        <aside class="col-md-3 collapsed in" id="navbarContent">
+          <div class="placelist">
+            <div class="list-group" data-bind="foreach: placeList">
                 <a href="#" class="list-group-item list-group-item-action" data-bind="text: title, click: show"></a>
             </div>
           </div>
