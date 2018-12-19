@@ -6,17 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saint Louis Attractions</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- CSS -->
+
     <link rel="stylesheet" href="css/styles.css">
 
   </head>
   <body>
-
-    <nav class="navbar">
+		<!-- Using Bootstraps navbar to create search and placelist -->
+    <div class="navbar">
       <div class="container-fluid">
         <form class="navbar-form navbar-right" role="search">
           <div class="input-group">
@@ -28,12 +27,11 @@
           </div>
         </form>
       </div>
-    </nav>
+    </div>
 
     <main class="container-fluid">
       <div class="row">
         <div id="map"></div>
-
         <aside class="col-md-3 collapsed in" id="navbarContent">
           <div class="placelist">
             <div class="list-group" data-bind="foreach: placeList">
@@ -44,8 +42,6 @@
       </div>
     </main>
 
-
-    <!-- Knockout.js -->
     <script src="js/lib/knockout.min.js"></script>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
