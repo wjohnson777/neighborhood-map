@@ -108,6 +108,7 @@ var LocationMarker = function(data) {
     this.marker.addListener('click', function() {
         populateInfoWindow(this, self.street, self.city, infoWindow);
         map.panTo(this.getPosition());
+		toggleBounce(this);
     });
 	
 	// Adjust size of markers on map
@@ -179,6 +180,17 @@ function populateInfoWindow(marker, street, city, infowindow) {
         // Open the infowindow on the marker.
         infowindow.open(map, marker);
     }
+}
+
+function toggleBounce(marker) {
+	if (marker.getAnimation() !== null) {
+		marker.setAnimation(null);
+	} else {
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		setTimeout(function() {
+			marker.setAnimation(null);
+		}, 1100);
+	}
 }
 
 // Google map error handler
