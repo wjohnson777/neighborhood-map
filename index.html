@@ -13,18 +13,16 @@
     <link href="css/styles.css" rel="stylesheet">
 
   </head>
-  <body>
-		<!-- Using Bootstraps navbar to create search and placelist -->
-		<input type="checkbox" id="hamburger" class="hidden-menu-ticker">
+	<body>
+		<input type="checkbox" id="hamburger" class="hidden-menu-button">
 		
 		<label class="btn-menu" for="hamburger">
 			<div class="hamburger">
-    
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</div>
-			<div class="menu-text">Filter</div>
+			<div class="menu-text">Places</div>
 		</label>
 
 		<aside class="hidden-menu">
@@ -33,12 +31,13 @@
 				<li class="list-group-item" data-bind="text: title, click: show"></a>
 			</ul>
 		</aside>
+				
 		<div id="map"></div>
 		<script src="js/lib/knockout.min.js"></script>
 		<script src="js/data.js"></script>
 		<script src="js/main.js"></script>
 		<script async defer
 		src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyBd7OjpZBBnXXM_uHgmzjlGAwJP7Mnhg3w&callback=initMap" onerror="googleMapsError()">
-    </script>
-  </body>
+		</script>
+	</body>
 </html>
