@@ -81,6 +81,8 @@ var LocationMarker = function(data) {
 		? results.location.formattedAddress[0]: 'N/A';
         self.city = results.location.formattedAddress[1] 
 		? results.location.formattedAddress[1]: 'N/A';
+		
+		// Foursquare error function
     }).fail(function() {
         alert('Error occured with Foursquare API');
     });
